@@ -1,40 +1,69 @@
-<div class="card shadow">
-    <div class="card-header"><h4>Detail Pengiriman #<?= $shipment['id'] ?></h4></div>
+<div class="card shadow-sm">
+    <div class="card-header bg-white py-3">
+        <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i>Detail Pengiriman #<?= $shipment['id'] ?></h4>
+    </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-6">
-                <h5>Pengirim</h5>
-                <p><strong>Nama:</strong> <?= htmlspecialchars($shipment['sender_name']) ?><br>
-                <strong>Kontak:</strong> <?= htmlspecialchars($shipment['sender_contact']) ?><br>
-                <strong>Alamat:</strong> <?= nl2br(htmlspecialchars($shipment['sender_address'])) ?></p>
+            <div class="col-md-6 mb-4">
+                <div class="border-start border-primary border-4 ps-3">
+                    <h5 class="text-primary"><i class="fas fa-user me-2"></i>Pengirim</h5>
+                    <p class="mb-1"><strong>Nama:</strong> <?= htmlspecialchars($shipment['sender_name']) ?></p>
+                    <p class="mb-1"><strong>Kontak:</strong> <?= htmlspecialchars($shipment['sender_contact']) ?></p>
+                    <p class="mb-0"><strong>Alamat:</strong><br><?= nl2br(htmlspecialchars($shipment['sender_address'])) ?></p>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h5>Penerima</h5>
-                <p><strong>Nama:</strong> <?= htmlspecialchars($shipment['receiver_name']) ?><br>
-                <strong>Kontak:</strong> <?= htmlspecialchars($shipment['receiver_contact']) ?><br>
-                <strong>Alamat:</strong> <?= nl2br(htmlspecialchars($shipment['receiver_address'])) ?><br>
-                <strong>Kota:</strong> <span class="text-uppercase fw-bold"><?= $shipment['receiver_city'] ?></span></p>
+            <div class="col-md-6 mb-4">
+                <div class="border-start border-success border-4 ps-3">
+                    <h5 class="text-success"><i class="fas fa-user-check me-2"></i>Penerima</h5>
+                    <p class="mb-1"><strong>Nama:</strong> <?= htmlspecialchars($shipment['receiver_name']) ?></p>
+                    <p class="mb-1"><strong>Kontak:</strong> <?= htmlspecialchars($shipment['receiver_contact']) ?></p>
+                    <p class="mb-1"><strong>Alamat:</strong><br><?= nl2br(htmlspecialchars($shipment['receiver_address'])) ?></p>
+                    <p class="mb-0"><strong>Kota:</strong> 
+                        <span class="badge bg-secondary text-uppercase"><?= strtoupper($shipment['receiver_city']) ?></span>
+                    </p>
+                </div>
             </div>
         </div>
-        <hr>
-        <h5>Informasi Resi</h5>
-        <?php if(!empty($shipment['resi_number']) && !empty($shipment['expedition'])): ?>
-            <p><strong>Nomor Resi:</strong> <?= $shipment['resi_number'] ?><br>
-            <strong>Ekspedisi:</strong> <?= $shipment['expedition'] ?><br>
-            <?php if($shipment['resi_photo']): ?>
-                <strong>Foto Resi:</strong> <a href="<?= base_url('uploads/resi_photos/'.$shipment['resi_photo']) ?>" target="_blank">Lihat Foto</a>
+
+        <hr class="my-3">
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <h5><i class="fas fa-truck me-2"></i>Informasi Resi</h5>
+                <?php if(!empty($shipment['resi_number']) && !empty($shipment['expedition'])): ?>
+                    <div class="bg-light p-3 rounded">
+                        <p class="mb-1"><strong>Nomor Resi:</strong> <?= $shipment['resi_number'] ?></p>
+                        <p class="mb-1"><strong>Ekspedisi:</strong> <?= $shipment['expedition'] ?></p>
+                        <?php if($shipment['resi_photo']): ?>
+                            <p class="mb-0">
+                                <strong>Foto Resi:</strong> 
+                                <a href="<?= base_url('uploads/resi_photos/'.$shipment['resi_photo']) ?>" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-image"></i> Lihat Foto
+                                </a>
+                            </p>
+                        <?php endif; ?>
+                    </div>
+                <?php else: ?>
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Data resi belum diisi.
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <?php if (!empty($shipment['item_description'])): ?>
+            <div class="col-md-6 mb-4">
+                <h5><i class="fas fa-box-open me-2"></i>Keterangan Barang</h5>
+                <div class="bg-light p-3 rounded">
+                    <?= nl2br(htmlspecialchars($shipment['item_description'])) ?>
+                </div>
+            </div>
             <?php endif; ?>
-            </p>
-        <?php else: ?>
-            <p class="text-danger">Data resi belum diisi.</p>
-        <?php endif; ?>
+        </div>
 
-        <?php if (!empty($shipment['item_description'])): ?>
-            <hr style="border-top: 2px dashed #ccc; margin: 20px 0;">
-            <h5>Keterangan Barang</h5>
-            <p><?= nl2br(htmlspecialchars($shipment['item_description'])) ?></p>
-        <?php endif; ?>
-
-        <a href="<?= site_url('shipment') ?>" class="btn btn-secondary">Kembali</a>
+        <div class="text-end mt-3">
+            <a href="<?= site_url('shipment') ?>" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Kembali
+            </a>
+        </div>
     </div>
 </div>
